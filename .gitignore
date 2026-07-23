@@ -1,0 +1,27 @@
+# Build artifacts (large, regenerated)
+build/
+dist/
+*.pyc
+__pycache__/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Executables (version controlled separately as releases)
+*.exe
+*.spec
+
+# Config (user-specific)
+config.json
+vlc.pid
+
+# Python
+*.egg-info/
+.env
+venv/
