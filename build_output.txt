@@ -1,0 +1,66 @@
+================================================
+ VLC Share Tool + Stream Deck CTL ΓÇö EXE Builder
+================================================
+
+[1/4] Installing dependencies...
+[2/4] Building main GUI exe...
+163 INFO: PyInstaller: 6.21.0, contrib hooks: 2026.6
+163 INFO: Python: 3.14.6
+192 INFO: Platform: Windows-11-10.0.26100-SP0
+192 INFO: Python environment: C:\Users\mike\AppData\Local\Python\pythoncore-3.14-64
+192 INFO: wrote D:\Downloads\VLC Discord audio Sharing Fix\VLC Share Tool.spec
+1011 INFO: Module search paths (PYTHONPATH):
+['D:\\Downloads\\VLC Discord audio Sharing Fix',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\python314.zip',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\DLLs',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64',
+ 'C:\\Users\\mike\\AppData\\Roaming\\Python\\Python314\\site-packages',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\win32',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\win32\\lib',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\pythonwin',
+ 'D:\\Downloads\\VLC Discord audio Sharing Fix']
+1331 INFO: Appending 'datas' from .spec
+1334 INFO: checking Analysis
+1459 INFO: checking PYZ
+1493 INFO: checking PKG
+1579 INFO: Bootloader C:\Users\mike\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+1579 INFO: checking EXE
+1588 INFO: Build complete! The results are available in: D:\Downloads\VLC Discord audio Sharing Fix\dist
+[3/4] Building Stream Deck companion exe...
+154 INFO: PyInstaller: 6.21.0, contrib hooks: 2026.6
+154 INFO: Python: 3.14.6
+178 INFO: Platform: Windows-11-10.0.26100-SP0
+178 INFO: Python environment: C:\Users\mike\AppData\Local\Python\pythoncore-3.14-64
+178 INFO: wrote D:\Downloads\VLC Discord audio Sharing Fix\vlc_share_ctl.spec
+184 INFO: Module search paths (PYTHONPATH):
+['D:\\Downloads\\VLC Discord audio Sharing Fix',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\python314.zip',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\DLLs',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64',
+ 'C:\\Users\\mike\\AppData\\Roaming\\Python\\Python314\\site-packages',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\win32',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\win32\\lib',
+ 'C:\\Users\\mike\\AppData\\Local\\Python\\pythoncore-3.14-64\\Lib\\site-packages\\pythonwin',
+ 'D:\\Downloads\\VLC Discord audio Sharing Fix']
+503 INFO: checking Analysis
+538 INFO: checking PYZ
+550 INFO: checking PKG
+555 INFO: Bootloader C:\Users\mike\AppData\Local\Python\pythoncore-3.14-64\Lib\site-packages\PyInstaller\bootloader\Windows-64bit-intel\runw.exe
+555 INFO: checking EXE
+556 INFO: Build complete! The results are available in: D:\Downloads\VLC Discord audio Sharing Fix\dist
+[4/4] Done!
+
+  Main GUI:        dist\VLC Share Tool.exe
+  Stream Deck CTL: dist\vlc_share_ctl.exe
+
+  HOW TO SET UP STREAM DECK:
+    1. Put BOTH exes in the same folder.
+    2. Open "VLC Share Tool.exe", configure and hit Launch once.
+    3. In Stream Deck add a "System: Open" action.
+    4. Point it at:  vlc_share_ctl.exe toggle
+    5. Button now starts/stops VLC with one press.
+

@@ -1,14 +1,15 @@
 # Discord VLC Audio Share
 
-**The missing piece for Discord screen sharing with virtual audio and dummy monitors.**
+**The missing piece for Discord screen sharing with virtual audio, dummy monitors, and app windows.**
 
 ## The Problem
 
-You want to stream a specific monitor or window to Discord with **complete audio control**. But Discord has issues:
+You want to stream a specific monitor, window, or app to Discord with **complete audio control**. But Discord has issues:
 
 - ❌ **"Share System Audio"** doesn't work properly with Discord's native screenshare
 - ❌ **No audio routing** — apps dump to your default device, friends hear nothing, you hear everything
 - ❌ **Multiple monitors** — Discord's full-screen capture gets the wrong one or creates a black screen
+- ❌ **App windows** — Can't cleanly capture individual app windows with proper audio
 - ❌ **Dummy plugs** — Windows detects your virtual HDMI monitor, but Discord doesn't capture it cleanly
 - ❌ **VB-Audio Virtual Cable** — Great for routing, but Discord can't see that audio path
 
@@ -16,11 +17,12 @@ You want to stream a specific monitor or window to Discord with **complete audio
 
 **Discord VLC Audio Share** — A Windows GUI that:
 
-1. **Captures exactly what you want** — Pick any monitor or open window
+1. **Captures exactly what you want** — Pick any monitor OR any open app window
 2. **Routes audio properly** — VB-Audio Virtual Cable funnels app audio into VLC
 3. **Outputs to Discord** — Share the VLC window (not your screen) for clean, controllable streaming
 4. **Works with dummy plugs** — Virtual monitors show up and capture perfectly
-5. **One-button control** — Stream Deck integration for start/stop
+5. **Works with app windows** — Stream Spotify, YouTube, games, OBS, whatever
+6. **One-button control** — Stream Deck integration for start/stop
 
 ## How It Works
 
@@ -53,13 +55,15 @@ Friends hear your audio + see your screen
 
 ## Quick Start
 
-1. **Download** [Latest Release](https://github.com/YOUR_USERNAME/Discord-VLC-Audio-Share/releases)
+1. **Download** [Latest Release](https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases)
 2. **Extract ZIP** to a folder
 3. **Run** `VLC Share Tool.exe`
-4. **Pick your monitor** from the list
+4. **Choose what to capture**:
+   - **Monitors tab** → Pick a monitor (e.g., dummy plug, virtual monitor, second display)
+   - **Windows tab** → Pick an app window (e.g., Spotify, YouTube, game, OBS)
 5. **Set audio**:
-   - **Audio In** → `CABLE Output` (VLC reads from here)
-   - **Audio Out** → Your headphones/speakers (so you can monitor)
+   - **Audio In** → `CABLE Output` (VLC reads from the virtual cable)
+   - **Audio Out** → `(none)` (so you don't hear audio bleeding through your speakers)
 6. **Click Launch VLC**
 7. In Discord: **Share Screen** → **Application Window** → **VLC** → **Go Live**
 
@@ -79,6 +83,11 @@ See [HOW TO USE.txt](Release/HOW%20TO%20USE.txt) for detailed instructions on:
 - Pick which monitor to capture and stream
 - Auto-selects largest non-primary (usually your dummy plug)
 - **Captures the entire desktop on that monitor** — whatever's on-screen goes to Discord
+
+### App Window Capture
+- Lists all visible open windows
+- Pick any window: Spotify, YouTube, OBS, games, etc.
+- Captures just that window — no desktop clutter
 
 ### Audio Routing
 - Reads all VB-Audio devices from Windows registry
