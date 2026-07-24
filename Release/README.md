@@ -109,6 +109,13 @@ When Vencord plugin is installed, clicking "Share Screen" in Discord automatical
 **To your viewers**: Looks like you're sharing a desktop
 **Actually**: It's your perfectly-routed VLC stream with zero audio issues
 
+### ⚙️ Settings Tab - Custom Path Configuration
+If VLC doesn't auto-detect, the Settings tab lets you:
+- Browse and specify custom VLC path
+- See auto-detection status
+- Save custom paths to config file
+- Both CLI and GUI read the custom path automatically
+
 ### Monitor/Desktop Capture
 - Auto-detects all monitors (any resolution, any layout)
 - Shows resolution, position, and primary status

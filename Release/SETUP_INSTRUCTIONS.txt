@@ -185,6 +185,14 @@ If you installed Vencord, you can make "Share Screen" launch VLC automatically!
 TROUBLESHOOTING
 ================================================================================
 
+PROBLEM: "VLC not found" error when launching
+SOLUTION:
+- VLC Share Tool tried to auto-detect VLC but failed
+- Go to the "⚙ Settings" tab in the GUI
+- Click "Browse" and select your vlc.exe file (usually in C:\Program Files\VideoLAN\VLC\)
+- Click "💾 Save Settings"
+- Try launching again
+
 PROBLEM: "No audio coming through"
 SOLUTION:
 - Make sure your app is set to output to "CABLE Input"
