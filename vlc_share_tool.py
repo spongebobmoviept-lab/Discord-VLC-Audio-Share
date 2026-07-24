@@ -271,18 +271,56 @@ def create_desktop_shortcut() -> str | None:
 
 
 # ---------------------------------------------------------------------------
-# GUI
+# GUI Color Scheme (auto-detect Windows light/dark mode)
 # ---------------------------------------------------------------------------
 
-DARK = "#1e1e2e"
-SURFACE = "#313244"
-OVERLAY = "#45475a"
-BLUE = "#89b4fa"
-GREEN = "#a6e3a1"
-MAUVE = "#cba6f7"
-TEXT = "#cdd6f4"
-SUBTEXT = "#a6adc8"
-MUTED = "#6c7086"
+def get_windows_theme() -> str:
+    """Detect if Windows is in light or dark mode."""
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                           r"SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize") as k:
+            mode, _ = winreg.QueryValueEx(k, "AppsUseLightTheme")
+            return "light" if mode == 1 else "dark"
+    except Exception:
+        return "dark"  # Default to dark mode
+
+
+_THEME = get_windows_theme()
+
+# Dark mode (default)
+if _THEME == "dark":
+    DARK = "#1e1e2e"
+    SURFACE = "#313244"
+    OVERLAY = "#45475a"
+    BLUE = "#89b4fa"
+    GREEN = "#a6e3a1"
+    MAUVE = "#cba6f7"
+    TEXT = "#cdd6f4"
+    SUBTEXT = "#a6adc8"
+    MUTED = "#6c7086"
+else:
+    # Light mode (Windows light theme)
+    DARK = "#f5f5f5"      # Window background (light gray)
+    SURFACE = "#e8e8e8"   # Panel background
+    OVERLAY = "#d0d0d0"   # Hover/pressed
+    BLUE = "#0066cc"      # Accent (Windows blue)
+    GREEN = "#107c10"     # Success (Windows green)
+    MAUVE = "#8661c5"     # Muted purple
+    TEXT = "#1a1a1a"      # Foreground text
+    SUBTEXT = "#5a5a5a"   # Secondary text
+    MUTED = "#808080"     # Disabled text
+
+DARK_COLOR = "#1e1e2e"
+SURFACE_COLOR = "#313244"
+OVERLAY_COLOR = "#45475a"
+BLUE_COLOR = "#89b4fa"
+GREEN_COLOR = "#a6e3a1"
+MAUVE_COLOR = "#cba6f7"
+TEXT_COLOR = "#cdd6f4"
+SUBTEXT_COLOR = "#a6adc8"
+MUTED_COLOR = "#6c7086"
+
 
 
 class App(tk.Tk):

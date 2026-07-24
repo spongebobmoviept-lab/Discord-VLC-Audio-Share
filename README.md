@@ -73,19 +73,18 @@ See [HOW TO USE.txt](Release/HOW%20TO%20USE.txt) for detailed instructions on:
 
 ## Key Features
 
-### Monitor Detection
+### Monitor/Desktop Capture
 - Auto-detects all monitors (any resolution, any layout)
 - Shows resolution, position, and primary status
+- Pick which monitor to capture and stream
 - Auto-selects largest non-primary (usually your dummy plug)
-
-### Window Picking
-- List all open windows
-- Capture any app window (not just full-screen monitors)
+- **Captures the entire desktop on that monitor** — whatever's on-screen goes to Discord
 
 ### Audio Routing
 - Reads all VB-Audio devices from Windows registry
 - Configures VLC to capture from `CABLE Output`
-- Outputs back to your monitoring device
+- Outputs back to your monitoring device (your headphones/speakers)
+- Any app's audio that you route to `CABLE Input` will flow through VLC to Discord
 
 ### Persistent Config
 - Save settings once → use Stream Deck forever
@@ -101,7 +100,7 @@ Both EXEs must be in the same folder:
 
 ### `vlc_share_tool.py` — Configuration GUI
 - tkinter, dark Catppuccin theme
-- Monitor + window detection via `screeninfo` + `win32api`
+- Monitor detection via `screeninfo` + `win32api`
 - Audio device enumeration via Windows registry
 - Calculates VLC coordinate transforms (critical for multi-monitor setups)
 - Saves `config.json` for headless operation
