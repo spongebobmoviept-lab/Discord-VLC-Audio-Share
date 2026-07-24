@@ -1,0 +1,164 @@
+============================================================
+  VLC Discord Share Tool — Full Setup Guide
+============================================================
+
+WHAT THIS DOES
+--------------
+Captures a specific monitor (or window) and streams it into
+Discord with proper audio — no OBS, no black screen issues.
+Great for sharing a dummy plug / virtual monitor that your
+friends can't normally see.
+
+
+------------------------------------------------------------
+STEP 1 — INSTALL REQUIREMENTS (one time)
+------------------------------------------------------------
+1. VLC media player (free)
+   https://www.videolan.org/vlc/
+
+2. VB-Audio Virtual Cable (free, for audio routing)
+   https://vb-audio.com/Cable/
+   → Download and run the installer, reboot if prompted.
+   → This creates two virtual audio devices:
+       "CABLE Input"   = a virtual speaker (send audio here)
+       "CABLE Output"  = a virtual microphone (VLC reads from here)
+
+
+------------------------------------------------------------
+STEP 2 — DUMMY PLUG / VIRTUAL MONITOR SETUP (optional)
+------------------------------------------------------------
+A dummy plug is a small HDMI or DisplayPort dongle (~$5-10)
+that tricks your GPU into thinking a monitor is connected.
+This creates a hidden "virtual" screen you can capture and
+share in Discord without it being visible on your real desk.
+
+  Hardware:
+    → Plug the dummy plug into a spare HDMI/DisplayPort output
+      on your GPU or motherboard.
+    → Windows will detect it as a new monitor automatically.
+    → Set its resolution in Windows Display Settings
+      (right-click desktop → Display Settings → click the
+       new monitor → change Resolution to whatever you want,
+       e.g. 1920x1080 or 3840x2160).
+
+  In the tool:
+    → Open "VLC Share Tool.exe"
+    → The Monitors tab will list the dummy plug as a
+      separate monitor with its resolution and position.
+    → Select it and click Launch VLC.
+
+  No dummy plug?
+    → Just pick any monitor or open window from the list.
+    → The tool works with whatever Windows shows.
+
+
+------------------------------------------------------------
+STEP 3 — AUDIO ROUTING SETUP
+------------------------------------------------------------
+Goal: Whatever audio plays on your PC goes into VLC,
+      and VLC sends it to Discord.
+
+  A) Set your app's audio output to "CABLE Input":
+     → Right-click the speaker icon in the taskbar
+     → Open Sound Settings → App volume and device preferences
+     → Find the app you want to share audio from
+     → Change its Output to "CABLE Input"
+
+     OR set your DEFAULT playback device to "CABLE Input":
+     → Control Panel → Sound → Playback tab
+     → Right-click "CABLE Input" → Set as Default Device
+
+  B) In the tool:
+     → Audio In:  pick "CABLE Output"
+       (VLC reads audio from the cable)
+     → Audio Out: pick where YOU want to hear it back
+       (e.g. your headphones/speakers so you can monitor it)
+
+  C) In Discord:
+     → Do NOT use "Share System Audio" — leave it OFF.
+     → Share the VLC application window instead (see Step 4).
+     → Discord will pick up the audio through VLC's stream.
+
+
+------------------------------------------------------------
+STEP 4 — SHARING IN DISCORD
+------------------------------------------------------------
+1. Open "VLC Share Tool.exe"
+2. Select your monitor or window in the Monitors/Windows tab
+3. Set Audio In and Audio Out in the dropdowns
+4. Check/uncheck Fullscreen as needed
+5. Pick "VLC opens on:" to choose which screen VLC goes to
+6. Click "▶ Launch VLC"
+
+7. In Discord:
+   → Click the screen share icon in a voice channel
+   → Choose "Application Window"  (NOT "Screen")
+   → Select "VLC media player" from the list
+   → Set quality to 720p or 1080p, 30fps
+   → Click "Go Live"
+
+8. To stop: click "⏹ Stop VLC" in the tool,
+   or press your Stream Deck button (see Step 5).
+
+NOTE: Always share the VLC *window*, not the whole screen.
+      This avoids the black screen issue Discord has with
+      certain full-screen captures.
+
+
+------------------------------------------------------------
+STEP 5 — STREAM DECK SETUP (optional)
+------------------------------------------------------------
+Lets you start/stop the share with one button press.
+
+  Both EXEs must be in the same folder:
+    VLC Share Tool.exe   ← configure here
+    vlc_share_ctl.exe    ← Stream Deck points here
+
+  First-time setup:
+    1. Run "VLC Share Tool.exe", configure everything,
+       click "▶ Launch VLC" once.
+       This saves your settings to config.json automatically.
+    2. Click "🖇 Create Desktop Shortcut" for quick access.
+
+  Single toggle button (recommended):
+    → Stream Deck → + → System → Open
+    → Application: vlc_share_ctl.exe
+    → Arguments:   toggle
+    → First press = START, second press = STOP
+
+  Separate start / stop buttons:
+    → Button 1: vlc_share_ctl.exe   args: start
+    → Button 2: vlc_share_ctl.exe   args: stop
+
+  After changing monitors or display layout:
+    → Open "VLC Share Tool.exe" again
+    → Adjust your selection
+    → Click "▶ Launch VLC" once to save new settings
+    → Stream Deck will use the new config automatically
+
+
+------------------------------------------------------------
+TROUBLESHOOTING
+------------------------------------------------------------
+VLC not found:
+  → Install VLC from https://www.videolan.org/vlc/
+  → The tool finds it automatically from the Windows registry.
+
+Wrong monitor captured:
+  → Click "⟳ Refresh" in the Monitors tab
+  → Re-select the correct monitor and hit Launch again.
+
+No audio in Discord:
+  → Make sure your source app is set to output to "CABLE Input"
+  → Make sure Audio In in the tool is set to "CABLE Output"
+  → Do NOT use "Share System Audio" in Discord.
+
+VLC window is black:
+  → VLC may need a moment to start capturing. Wait 2-3 seconds.
+  → Try clicking inside the VLC window once.
+
+Stream Deck button does nothing:
+  → Make sure both EXEs are in the same folder.
+  → Run the GUI once and hit Launch to create config.json first.
+
+============================================================
