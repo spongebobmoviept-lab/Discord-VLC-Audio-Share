@@ -48,33 +48,25 @@ Friends hear your audio + see your screen
   - Creates `CABLE Input` (virtual speaker) and `CABLE Output` (virtual mic)
   - Install and reboot if prompted
 
-### Optional (Recommended for One-Click Streaming)
+### Optional
 
-- **[Vencord](https://vencord.dev/)** — Discord mod, free
-  - Enables plugin that hijacks "Share Screen" button
-  - Makes streaming one-click instead of multi-step
-  - Not required, but highly recommended
-- **[Stream Deck](https://www.elgato.com/stream-deck)** — button hardware, ~$100
-  - Physical button for start/stop
-- **Dummy HDMI dongle** — virtual monitor, ~$5–10
+- **[Stream Deck](https://www.elgato.com/stream-deck)** — one-button start/stop (~$100)
+- **Dummy HDMI dongle** (~$5–10) — for hidden/additional virtual monitors
 
 ## Quick Start
 
-### Option A: Vencord Plugin (Recommended - One-Click Streaming)
+### Option A: Stream Deck (Recommended - One-Button Control)
 
-If you have **[Vencord](https://vencord.dev/)** installed:
+If you have **Stream Deck**:
 
 1. **Download** [Latest Release](https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases)
 2. **Extract ZIP** to a folder
-3. **Run** `VLC Share Tool.exe` once to configure and test
-4. **Copy** `VLCShare.tsx` to `%APPDATA%\Vencord\src\userplugins\`
-5. **Restart Discord**
-6. **Enable plugin**: Vencord Settings → Plugins → "VLC Share" → toggle ON
-7. **Stream**: In Discord, click **"Share Screen"** → VLC launches automatically → Select **"Application Window"** → **"VLC"** → **"Go Live"**
+3. **Run** `VLC Share Tool.exe` once to configure
+4. **In Stream Deck**: Add "System: Open" action → point to `vlc_share_ctl.exe toggle`
+5. **Done!** Press the button to start/stop VLC
+6. **In Discord**: Share Screen → Application Window → VLC → Go Live
 
-That's it! Now clicking "Share Screen" always launches VLC with your saved settings.
-
-### Option B: Manual (Without Vencord)
+### Option B: Manual (No Stream Deck)
 
 1. **Download** [Latest Release](https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases)
 2. **Extract ZIP** to a folder
@@ -91,23 +83,14 @@ That's it! Now clicking "Share Screen" always launches VLC with your saved setti
 ## Full Setup Guide
 
 See [SETUP_INSTRUCTIONS.txt](Release/SETUP_INSTRUCTIONS.txt) for detailed instructions on:
-- Installing prerequisites (VLC, VB-Audio, Vencord)
+- Installing prerequisites (VLC, VB-Audio, Discord)
 - Audio routing with VB-Audio Virtual Cable
-- Vencord plugin setup and configuration
 - Dummy plug / virtual monitor setup
 - Stream Deck integration
+- Console script activation (temporary Vencord workaround)
 - Troubleshooting
 
 ## Key Features
-
-### ⚡ Vencord Plugin - Share Screen Button Hijack (NEW!)
-When Vencord plugin is installed, clicking "Share Screen" in Discord automatically:
-1. Launches VLC with your pre-configured settings
-2. Waits for you to select "Application Window" → "VLC"
-3. One-click streaming to Discord!
-
-**To your viewers**: Looks like you're sharing a desktop
-**Actually**: It's your perfectly-routed VLC stream with zero audio issues
 
 ### ⚙️ Settings Tab - Custom Path Configuration
 If VLC doesn't auto-detect, the Settings tab lets you:
@@ -115,6 +98,11 @@ If VLC doesn't auto-detect, the Settings tab lets you:
 - See auto-detection status
 - Save custom paths to config file
 - Both CLI and GUI read the custom path automatically
+
+### 📋 One-Button Stream Control
+- Stream Deck button for instant start/stop
+- Pre-configured settings persist across sessions
+- Works from anywhere — even with VLC hidden
 
 ### Monitor/Desktop Capture
 - Auto-detects all monitors (any resolution, any layout)
@@ -139,29 +127,15 @@ If VLC doesn't auto-detect, the Settings tab lets you:
 - `config.json` stores all preferences
 - Headless mode: `vlc_share_ctl.exe toggle` / `start` / `stop`
 
-### Stream Deck Integration
+## Stream Deck Integration
 
-**Two ways to use with Stream Deck:**
+**One-button control** — easiest way to stream:
 
-#### Method 1: Direct Control (Works without Vencord)
-Set up Stream Deck buttons for full control:
-- **Button 1**: `vlc_share_ctl.exe start` — Launch VLC
-- **Button 2**: `vlc_share_ctl.exe stop` — Stop VLC
-- **Button 3**: `vlc_share_ctl.exe toggle` — Start if stopped, stop if running
+1. **Configure once**: Open VLC Share Tool.exe, set your monitor/window/audio
+2. **Set up Stream Deck**: "System: Open" → `vlc_share_ctl.exe toggle`
+3. **Stream forever**: Press button → VLC launches → Discord Share Screen → App Window → VLC → Go Live
 
-Then manually click "Share Screen" in Discord when you want to stream.
-
-#### Method 2: Vencord + Stream Deck (Recommended)
-With Vencord plugin installed, use Stream Deck to launch VLC, then:
-1. **Stream Deck button**: `vlc_share_ctl.exe toggle` — Launches VLC with your saved settings
-2. **In Discord**: Click **"Share Screen"** 
-3. **Vencord plugin** automatically detects it and launches VLC (if not already running)
-4. **Select**: Application Window → VLC → Go Live
-
-OR skip the Stream Deck button and just:
-- Click "Share Screen" in Discord directly
-- Vencord plugin launches VLC automatically
-- Done!
+That's it. One button, fully configured, every time.
 
 ## Architecture
 

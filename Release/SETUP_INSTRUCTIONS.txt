@@ -17,10 +17,14 @@ Before you start, you need 3 things:
    • Install and RESTART your computer
    • This creates virtual audio devices for routing
 
-3. Discord with Vencord (Optional but Recommended)
-   • Discord: https://discord.com/download
-   • Vencord: https://vencord.dev/
-   • Vencord lets you use the "Share Screen hijack" for one-click streaming
+3. Discord (Required)
+   • Download: https://discord.com/download
+   • Install normally
+
+OPTIONAL:
+- Vencord (if you want custom Discord mods)
+  • Download: https://vencord.dev/
+  • You can also activate VLC via Discord console script (doesn't need Vencord)
 
 
 STEP-BY-STEP SETUP
@@ -46,11 +50,10 @@ PHASE 1: Install Prerequisites (Do This First!)
    - Go to https://discord.com/download
    - Download and install
 
-4. Install Vencord (Optional - for "Share Screen" button hijack)
+4. Optional: Install Vencord (for custom Discord mods)
    - Go to https://vencord.dev/
-   - Click "Install"
-   - Choose your installer type
-   - Follow the installation steps
+   - Click "Install" and follow instructions
+   - Or use the Discord console script (see Phase 5)
 
 
 PHASE 2: Configure VLC Share Tool
@@ -149,37 +152,50 @@ NOW YOU CAN START STREAMING:
 6. To stop: Click "Stop Sharing" in Discord
 
 
-OPTIONAL: VENCORD PLUGIN SETUP
+OPTIONAL: TEMPORARY DISCORD CONSOLE SCRIPT
 ================================================================================
 
-If you installed Vencord, you can make "Share Screen" launch VLC automatically!
+If you want the "Share Screen" button to show a notification when clicked:
 
-1. Copy the Plugin File
-   - Find: VLCShare.tsx (in your extracted folder)
-   - Copy it
+WHAT IT DOES:
+- Monitors the "Share Screen" button
+- Shows notification when you click it
+- Reminds you to launch VLC Share Tool.exe
+- Stays active while Discord is open
 
-2. Paste into Vencord
-   - Open File Explorer
-   - Paste this in address bar: %APPDATA%\Vencord\src\userplugins\
-   - Right-click → Paste
-   - VLCShare.tsx should now be in that folder
+HOW TO ACTIVATE:
 
-3. Restart Discord
-   - Close Discord completely
-   - Wait 2 seconds
-   - Reopen Discord
+1. Open Discord (with or without Vencord)
 
-4. Enable the Plugin
-   - In Discord, click gear icon (Vencord settings) → bottom left
-   - Go to "Plugins" tab
-   - Search for "VLC"
-   - You should see "VLC Share"
-   - Toggle it ON (blue)
+2. Open Developer Console
+   - Press: Ctrl + Shift + I (or F12)
+   - Click "Console" tab at the top
 
-5. NOW: When you click "Share Screen"
-   - VLC launches automatically with your settings!
-   - You just select "Application Window → VLC → Go Live"
-   - ONE CLICK setup instead of manual!
+3. Copy the Script
+   - Find: VLCShareConsole.js (in your extracted folder)
+   - Open it with Notepad
+   - Select all (Ctrl + A)
+   - Copy (Ctrl + C)
+
+4. Paste into Console
+   - Click in the console input box (at the bottom where it says >>)
+   - Paste (Ctrl + V)
+   - Press Enter
+
+5. Activation Message
+   - You should see: "[VLC Share] ✓✓✓ ACTIVATED ✓✓✓"
+   - Closes console if you want
+
+6. USAGE:
+   - Click "Share Screen" button in voice channel
+   - You'll see notification
+   - Launch VLC Share Tool.exe
+   - Select Application Window → VLC → Go Live
+
+NOTES:
+- Script only works while console is open (or use Vencord dev tools to keep it open)
+- Resets when you close/refresh Discord
+- No permanent plugin installation needed
 
 
 TROUBLESHOOTING
