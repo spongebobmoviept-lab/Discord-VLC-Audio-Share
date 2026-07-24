@@ -5,27 +5,27 @@ REM ======================================
 
 setlocal enabledelayedexpansion
 
+cls
 echo.
 echo ============================================
-echo VLC Share Tool - Setup
+echo        VLC Share Tool - Setup
 echo ============================================
-echo.
-echo This tool doesn't require Vencord setup.
 echo.
 echo You can use it in two ways:
 echo.
-echo OPTION 1 (Recommended): Direct Launch
-echo   • Double-click: VLC Share Tool.exe
-echo   • Configure monitor/audio
-echo   • Click "Launch VLC"
-echo   • In Discord: Share Screen ^> VLC ^> Go Live
+echo OPTION 1 - Direct Launch (Recommended)
+echo   1. Double-click: VLC Share Tool.exe
+echo   2. Pick your monitor or app window
+echo   3. Set audio: In=CABLE Out, Out=(none)
+echo   4. Click "Launch VLC"
+echo   5. Discord: Share Screen ^> VLC ^> Go Live
 echo.
-echo OPTION 2: Stream Deck Integration
-echo   • Use vlc_share_ctl.exe with Stream Deck
-echo   • One-button start/stop streaming
+echo OPTION 2 - Stream Deck Integration
+echo   1. Use vlc_share_ctl.exe with Stream Deck
+echo   2. One-button start/stop
 echo.
 echo ============================================
-echo Setup Complete!
+echo Ready to go!
 echo ============================================
 echo.
 pause
