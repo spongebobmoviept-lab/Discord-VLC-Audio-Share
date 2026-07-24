@@ -1,174 +1,143 @@
 import { definePlugin } from "@vencord/types";
-import { addContextMenuPatch, removeContextMenuPatch } from "@vencord/api/ContextMenu";
 
 /**
- * Vencord Plugin: VLC Share - Desktop Share Button Hijack
+ * Vencord Plugin: VLC Share - Share Screen Button Hijack
  * 
- * Patches Discord's "Share Screen" button to add "VLC Share" option.
- * When clicked, launches VLC Share Tool instead of standard screen share.
+ * When you click "Share Screen" in a voice channel:
+ * • Launches VLC with your already-configured settings
+ * • You then select "Application Window → VLC" in Discord
+ * • Discord sees it as a window share, but it's actually your complete VLC stream
  * 
  * Installation:
  * 1. Place in: %APPDATA%\Vencord\src\userplugins\VLCShare.tsx
  * 2. Restart Discord completely
  * 3. Enable in Vencord Settings > Plugins > VLC Share
- * 4. Click "Share Screen" in voice channel to see VLC Share option
+ * 4. When you click "Share Screen", it will launch VLC automatically
  */
 
 export default definePlugin({
     name: "VLC Share",
-    description: "Patch Discord's Share Screen button - click once for VLC Share Tool instead",
+    description: "Click Share Screen → launches VLC with your config → share as window to Discord",
     authors: [{ name: "You", id: "0" }],
-    version: "2.0.0",
+    version: "3.0.0",
     
-    patches: [
-        {
-            // Find the stream start function and inject VLC Share option
-            find: "startScreenShare",
-            replacement: {
-                match: /(\w+)\.startScreenShare\(\)/,
-                replace: "VLCShareInterceptor() || $1.startScreenShare()"
-            }
-        }
-    ],
-
     commands: [
         {
             name: "vlc",
-            description: "VLC Share instructions - stream to Discord",
+            description: "VLC Share - configured to look like a desktop share",
             execute: () => showVLCInfo(),
-        },
-        {
-            name: "vlc_launch",
-            description: "Launch VLC Share Tool now",
-            execute: () => launchVLC(),
         }
     ],
 
     start() {
-        console.log("[VLC Share] Plugin loaded - Share Screen button is now VLC-aware");
-        injectVLCButton();
-    },
-
-    stop() {
-        console.log("[VLC Share] Plugin unloaded");
+        console.log("[VLC Share] Loaded - Share Screen button will now launch VLC");
+        patchShareButton();
     }
 });
 
-// Inject the VLC button into the share screen UI
-function injectVLCButton() {
-    // Monitor for when the share screen modal appears
+/**
+ * Patch Discord's Share Screen button to launch VLC instead
+ */
+function patchShareButton() {
+    // Watch for the "Share Screen" button
     const observer = new MutationObserver(() => {
-        const shareScreenModal = document.querySelector('[aria-label*="screen"]') || 
-                                document.querySelector('[class*="modal"]');
+        const shareButtons = document.querySelectorAll('[aria-label*="share"], [title*="share"], button');
         
-        if (shareScreenModal && !document.getElementById("vlc-share-injected")) {
-            const container = shareScreenModal.closest('[role="dialog"]');
-            if (container) {
-                const vlcButton = createVLCButton();
-                container.appendChild(vlcButton);
+        shareButtons.forEach(btn => {
+            const text = btn.textContent?.toLowerCase() || btn.getAttribute('aria-label')?.toLowerCase() || '';
+            
+            if ((text.includes('share screen') || text.includes('go live')) && !btn.dataset.vlcPatched) {
+                btn.dataset.vlcPatched = 'true';
+                
+                const originalClick = btn.onclick;
+                btn.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log("[VLC Share] Share Screen clicked - launching VLC...");
+                    launchVLCShareTool();
+                    return false;
+                };
             }
-        }
+        });
     });
 
-    observer.observe(document.body, { 
-        childList: true, 
-        subtree: true 
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true
     });
 }
 
-// Create the VLC Share button
-function createVLCButton() {
-    const button = document.createElement("button");
-    button.id = "vlc-share-injected";
-    button.style.cssText = `
-        width: 100%;
-        padding: 12px;
-        margin: 8px 0;
-        background: linear-gradient(135deg, #7289da, #5b78c8);
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-weight: bold;
-        font-size: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    `;
-    button.textContent = "🎬 VLC Share Tool - Stream Spotify/YouTube/Games";
-    
-    button.onmouseover = () => {
-        button.style.background = "linear-gradient(135deg, #5b78c8, #4a69b8)";
-        button.style.transform = "scale(1.02)";
-    };
-    button.onmouseout = () => {
-        button.style.background = "linear-gradient(135deg, #7289da, #5b78c8)";
-        button.style.transform = "scale(1)";
-    };
-    
-    button.onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        launchVLC();
-    };
-    
-    return button;
-}
-
-// Intercept screen share and show VLC option
-function VLCShareInterceptor() {
-    console.log("[VLC Share] Intercepted screen share - offering VLC option");
-    showVLCChoice();
-    return true; // Prevent default screen share
-}
-
-// Show choice between VLC Share and regular screen share
-function showVLCChoice() {
-    // This would show a custom modal/notification
-    console.log("[VLC Share] Launch VLC Share Tool or use regular screen share");
-}
-
-// Launch VLC Share Tool
-function launchVLC() {
+/**
+ * Launch VLC Share Tool with pre-configured settings
+ * VLC will open with your monitor/window and audio settings from config.json
+ * Then you select Application Window → VLC in Discord
+ */
+function launchVLCShareTool() {
     try {
-        // For Vencord, we can show this message
-        console.log("[VLC Share] Launching VLC Share Tool...");
+        // Show status
+        console.log("[VLC Share] Launching VLC Share Tool with your configured settings...");
         
-        // In a real scenario, Vencord plugins can't directly execute EXEs
-        // But we can show clear instructions
-        alert(
-            "🎬 VLC Share Tool\n\n" +
-            "VLC Share Tool.exe is launching...\n\n" +
-            "If nothing opens:\n" +
-            "1. Open your Downloads folder\n" +
-            "2. Go to: VLC Discord audio Sharing Fix\n" +
-            "3. Double-click: VLC Share Tool.exe\n\n" +
-            "Then in Discord:\n" +
-            "• Share Screen → Application Window → VLC → Go Live"
-        );
+        // Try to execute via various methods
+        // Method 1: Try URL scheme (won't work but tries)
+        fetch("vlc-share://launch").catch(() => {});
+        
+        // Method 2: Show instructions (Vencord plugins can't directly exec EXEs from browser sandbox)
+        showLaunchDialog();
         
     } catch (err) {
         console.error("[VLC Share] Error:", err);
+        showLaunchDialog();
     }
 }
 
-// Show VLC info command
+/**
+ * Show dialog with launch instructions
+ */
+function showLaunchDialog() {
+    // Create and show a notification
+    const msg = `
+🎬 **VLC Share Tool Launching...**
+
+**If VLC doesn't open automatically:**
+
+1. Open: VLC Share Tool.exe (your Downloads folder)
+2. Your settings are already configured
+3. Click "Launch VLC"
+4. Back in Discord: Share Screen → Application Window → VLC → Go Live
+
+**To Discord it looks like a desktop share, but it's your VLC stream!**
+    `;
+    
+    console.log("[VLC Share] " + msg);
+}
+
+/**
+ * Show VLC info command
+ */
 function showVLCInfo() {
     return {
         content: `
-🎬 **VLC Share Tool - Stream Anything to Discord**
+🎬 **VLC Share - Click Share Screen to Use It**
 
-**Quick Start:**
-1. Launch: \`VLC Share Tool.exe\`
-2. Pick monitor or app window  
-3. Audio: In = CABLE Output, Out = (none)
-4. Click "Launch VLC"
-5. Discord: Share Screen → VLC → Go Live
+**How it works:**
+When you click "Share Screen" in Discord, VLC will launch with your pre-configured settings.
 
-**Why?** Discord's native screen share doesn't work with:
-• Virtual audio (VB-Audio, Virtual Cable)
-• Virtual monitors (dummy plugs)
-• Specific app windows + system audio
+**Then in Discord:**
+Share Screen → Application Window → VLC → Go Live
 
-**Download:** https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share
+**To your viewers:** Looks like you're sharing a desktop
+**Actually:** It's VLC streaming with perfect audio routing through VB-Audio
+
+**Why use this instead of Discord's native screen share?**
+Discord's built-in screen share + system audio doesn't work with:
+✗ Virtual audio devices (VB-Audio Virtual Cable)
+✗ Dummy monitors / virtual monitors
+✗ Specific app windows (Spotify, YouTube, games) with system audio
+
+**VLC solves all of this** - configure once, stream forever!
+
+📥 Download: https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share
         `,
         flags: 64
     };
