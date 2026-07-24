@@ -1,102 +1,247 @@
-# VLC Share Tool - Setup Guide
+================================================================================
+                    VLC DISCORD AUDIO SHARE - FULL SETUP GUIDE
+================================================================================
 
-## Quick Start (60 seconds)
+PREREQUISITES
+================================================================================
 
-### 1. Extract the ZIP file
-Unzip `VLC-Discord-Share-Tool.zip` to a folder on your computer.
+Before you start, you need 3 things:
 
-### 2. Install Vencord Plugin (Optional but Recommended)
-Double-click `Setup Vencord Plugin.bat` in the extracted folder. It will:
-- Create the Vencord plugins folder
-- Copy the VLC Share plugin there
-- Show you next steps
+1. VLC Media Player (FREE)
+   • Download: https://www.videolan.org/vlc/
+   • Install normally
+   • You'll use this for streaming
 
-### 3. Restart Discord
-Close Discord completely (right-click taskbar icon → Close), then reopen it.
+2. VB-Audio Virtual Cable (FREE)
+   • Download: https://vb-audio.com/Cable/
+   • Install and RESTART your computer
+   • This creates virtual audio devices for routing
 
-### 4. Enable the Plugin
-1. Open Discord
-2. Click the **gear icon** in the bottom-left corner (Vencord settings)
-3. Go to **Plugins** tab
-4. Search for "VLC Share Tool"
-5. Toggle it **ON**
+3. Discord with Vencord (Optional but Recommended)
+   • Discord: https://discord.com/download
+   • Vencord: https://vencord.dev/
+   • Vencord lets you use the "Share Screen hijack" for one-click streaming
 
-### 5. Use It!
 
-**Option A: From Discord (if plugin is installed)**
-- Type `/vlc_share` → Opens VLC Share Tool GUI
-- Type `/vlc_toggle` → Starts/stops VLC stream
+STEP-BY-STEP SETUP
+================================================================================
 
-**Option B: Direct Launch**
-- Double-click `VLC Share Tool.exe` to open GUI
+PHASE 1: Install Prerequisites (Do This First!)
+-----------------------------------------------
 
-**Option C: Stream Deck Integration**
-- Use `vlc_share_ctl.exe` with Stream Deck buttons
+1. Install VLC
+   - Go to https://www.videolan.org/vlc/
+   - Download VLC Media Player
+   - Run installer, accept defaults
+   - Finish
 
----
+2. Install VB-Audio Virtual Cable
+   - Go to https://vb-audio.com/Cable/
+   - Download (free version is fine)
+   - Run installer
+   - IMPORTANT: RESTART YOUR COMPUTER
+   - After restart, you should see "CABLE Input" and "CABLE Output" in audio devices
 
-## Setting Up Your Stream
+3. Install Discord (if you don't have it)
+   - Go to https://discord.com/download
+   - Download and install
 
-### Step 1: Configure VLC Share Tool
-1. **Monitors tab** (or **Windows tab** to capture an app)
-   - Pick your monitor/window from the list
+4. Install Vencord (Optional - for "Share Screen" button hijack)
+   - Go to https://vencord.dev/
+   - Click "Install"
+   - Choose your installer type
+   - Follow the installation steps
+
+
+PHASE 2: Configure VLC Share Tool
+-----------------------------------
+
+1. Extract the ZIP file you downloaded
+   - Folder name: "VLC Discord audio Sharing Fix"
+   - Contains: VLC Share Tool.exe, vlc_share_ctl.exe, VLCShare.tsx, etc.
+
+2. Run VLC Share Tool.exe
+   - Double-click it
+   - A window will open with two tabs: "Monitors" and "Windows"
+
+3. Pick What to Stream
    
-2. **Monitors tab** - Set audio:
-   - **Audio In**: `CABLE Output` (or your virtual cable device)
-   - **Audio Out**: `(none)` (so you don't hear audio bleed)
+   OPTION A: Stream a Monitor
+   - Click "Monitors" tab
+   - Select your monitor from the list
+   - Usually the one labeled "PRIMARY: False" (if using dummy monitor)
+   - Resolution should be your intended stream size
+   
+   OPTION B: Stream an App Window
+   - Click "Windows" tab
+   - Select the app you want to stream (Spotify, YouTube, OBS, game, etc.)
+   - Make sure it's the right window
 
-3. Click **Launch VLC** → VLC window will open
+4. Configure Audio
+   - Audio In: Set to "CABLE Output (VB-Audio Virtual Cable A)"
+     (This is what VLC will READ audio from)
+   
+   - Audio Out: Set to "(none)"
+     (This prevents audio bleeding through your speakers)
 
-### Step 2: Configure Discord
-1. In Discord voice channel, click **Share Screen**
-2. Select **Application Window**
-3. Choose **VLC** from the list
-4. Click **Go Live**
+5. Save Configuration
+   - Your settings are saved automatically
+   - Close the window if you want
 
-### Step 3: Control Volume
-- **In Discord**: VLC window shows a volume slider at the bottom
-- **From listeners**: They can right-click your name → User Volume to adjust their receive level
+6. TEST: Launch VLC
+   - Go back to VLC Share Tool
+   - Click "Launch VLC"
+   - A VLC window should open showing your selected monitor/window
+   - You should see a video preview
+   - Close VLC when done testing
 
----
 
-## Troubleshooting
+PHASE 3: Route Audio to CABLE Input
+-------------------------------------
 
-### Vencord Plugin not showing?
-- Restart Discord completely (not just minimize)
-- Check that `Setup Vencord Plugin.bat` ran successfully
-- Verify Vencord is installed: https://vencord.dev
+This is the KEY step! Your app (Spotify, game, etc.) needs to output to CABLE Input.
 
-### VLC not starting?
-- Make sure VLC is installed: https://www.videolan.org/vlc/
-- VLC must be accessible from system PATH or registry
+SPOTIFY EXAMPLE:
+- Open Spotify
+- Settings → Devices → Select "CABLE Input (VB-Audio Virtual Cable)"
+- Now when Spotify plays, audio goes into the cable
 
-### No audio from VLC?
-- Verify **Audio In** is set to your virtual cable device (e.g., CABLE Output)
-- Check that your app (Spotify, game, etc.) is routing audio to `CABLE Input`
+YOUTUBE / BROWSER:
+- Windows Settings → Volume → Advanced → Volume mixer
+- Find your browser in the list
+- Change "Output device" to "CABLE Input"
 
-### Can't find VLC in Discord share list?
-- Click **Launch VLC** first in VLC Share Tool
-- Wait 2 seconds, then go back to Discord share menu
+GAME:
+- Game Settings → Audio Output → Select "CABLE Input" or "VB-Audio"
+- Or use Windows volume mixer (see YouTube example above)
 
----
+OBS:
+- Settings → Audio → Mic/Aux Audio Device → "CABLE Input"
 
-## What You Can Stream
+ANY APP:
+- Windows Settings → Sound → Volume mixer
+- Find the app in the list
+- Change "Output device" to "CABLE Input"
 
-✅ **Monitors** - Any display (including dummy plugs, virtual monitors)
-✅ **Application Windows** - Spotify, YouTube, games, OBS, browsers, etc.
-✅ **Desktop** - Full screen capture of a specific monitor
-✅ **Audio** - Complete control via VB-Audio Virtual Cable routing
 
----
+PHASE 4: Ready to Stream!
+--------------------------
 
-## For Streamers with Stream Deck
+NOW YOU CAN START STREAMING:
 
-If you have Elgato Stream Deck:
-1. Add custom command: `vlc_share_ctl.exe toggle`
-2. One-button start/stop streaming to Discord
+1. Set up your app (Spotify playing, YouTube open, game running, etc.)
 
----
+2. Route that app's audio to CABLE Input (see Phase 3 above)
 
-## More Help
+3. Open VLC Share Tool and click "Launch VLC"
 
-See the full README at: https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share
+4. In Discord:
+   - Join a voice channel
+   - Click "Share Screen" button
+   - Choose "Application Window"
+   - Select "VLC" from the list
+   - Click "Go Live"
+
+5. Your friends can now:
+   - SEE your monitor/window content
+   - HEAR the perfect audio with no echo or bleed
+
+6. To stop: Click "Stop Sharing" in Discord
+
+
+OPTIONAL: VENCORD PLUGIN SETUP
+================================================================================
+
+If you installed Vencord, you can make "Share Screen" launch VLC automatically!
+
+1. Copy the Plugin File
+   - Find: VLCShare.tsx (in your extracted folder)
+   - Copy it
+
+2. Paste into Vencord
+   - Open File Explorer
+   - Paste this in address bar: %APPDATA%\Vencord\src\userplugins\
+   - Right-click → Paste
+   - VLCShare.tsx should now be in that folder
+
+3. Restart Discord
+   - Close Discord completely
+   - Wait 2 seconds
+   - Reopen Discord
+
+4. Enable the Plugin
+   - In Discord, click gear icon (Vencord settings) → bottom left
+   - Go to "Plugins" tab
+   - Search for "VLC"
+   - You should see "VLC Share"
+   - Toggle it ON (blue)
+
+5. NOW: When you click "Share Screen"
+   - VLC launches automatically with your settings!
+   - You just select "Application Window → VLC → Go Live"
+   - ONE CLICK setup instead of manual!
+
+
+TROUBLESHOOTING
+================================================================================
+
+PROBLEM: "No audio coming through"
+SOLUTION:
+- Make sure your app is set to output to "CABLE Input"
+- Check VLC Share Tool has "Audio In" = "CABLE Output"
+- Restart the app after changing audio output
+
+PROBLEM: "Audio is echoing / I hear double audio"
+SOLUTION:
+- Set "Audio Out" to "(none)" in VLC Share Tool
+- This prevents VLC from playing audio locally
+
+PROBLEM: "VLC not showing in Discord share list"
+SOLUTION:
+- Click "Launch VLC" in VLC Share Tool first
+- Wait 2 seconds
+- Then go to Discord Share Screen menu
+
+PROBLEM: "Monitor not showing up in Monitors list"
+SOLUTION:
+- You have a dummy monitor / virtual monitor
+- It might need drivers (search: dummy HDMI plug drivers)
+- Or restart VLC Share Tool to refresh the list
+
+PROBLEM: "Vencord plugin not showing"
+SOLUTION:
+- Restart Discord COMPLETELY (close from taskbar)
+- Wait 5 seconds
+- Reopen Discord
+- Check Vencord settings again
+
+
+QUICK REFERENCE
+================================================================================
+
+Essential Files:
+- VLC Share Tool.exe = Main configuration app (run this first!)
+- vlc_share_ctl.exe = CLI tool for Stream Deck (advanced users)
+- VLCShare.tsx = Vencord plugin (optional, for Share Screen hijack)
+- config.json = Your saved settings (don't delete!)
+
+Audio Path:
+App (Spotify/Game/etc) → CABLE Input → CABLE Output → VLC → Discord
+
+Share Steps:
+1. App plays audio (routed to CABLE Input)
+2. Launch VLC (from VLC Share Tool)
+3. Discord: Share Screen → Application Window → VLC → Go Live
+4. Stop: Click "Stop Sharing"
+
+
+NEED HELP?
+================================================================================
+
+GitHub: https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share
+Issues: https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/issues
+
+Download Latest Version: 
+https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases
+
+================================================================================
