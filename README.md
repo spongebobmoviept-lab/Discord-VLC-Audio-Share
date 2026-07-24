@@ -48,12 +48,33 @@ Friends hear your audio + see your screen
   - Creates `CABLE Input` (virtual speaker) and `CABLE Output` (virtual mic)
   - Install and reboot if prompted
 
-### Optional
+### Optional (Recommended for One-Click Streaming)
 
-- **[Stream Deck](https://www.elgato.com/stream-deck)** — one-button start/stop
-- **Dummy HDMI dongle** (~$5–10) — for hidden/additional virtual monitors
+- **[Vencord](https://vencord.dev/)** — Discord mod, free
+  - Enables plugin that hijacks "Share Screen" button
+  - Makes streaming one-click instead of multi-step
+  - Not required, but highly recommended
+- **[Stream Deck](https://www.elgato.com/stream-deck)** — button hardware, ~$100
+  - Physical button for start/stop
+- **Dummy HDMI dongle** — virtual monitor, ~$5–10
 
 ## Quick Start
+
+### Option A: Vencord Plugin (Recommended - One-Click Streaming)
+
+If you have **[Vencord](https://vencord.dev/)** installed:
+
+1. **Download** [Latest Release](https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases)
+2. **Extract ZIP** to a folder
+3. **Run** `VLC Share Tool.exe` once to configure and test
+4. **Copy** `VLCShare.tsx` to `%APPDATA%\Vencord\src\userplugins\`
+5. **Restart Discord**
+6. **Enable plugin**: Vencord Settings → Plugins → "VLC Share" → toggle ON
+7. **Stream**: In Discord, click **"Share Screen"** → VLC launches automatically → Select **"Application Window"** → **"VLC"** → **"Go Live"**
+
+That's it! Now clicking "Share Screen" always launches VLC with your saved settings.
+
+### Option B: Manual (Without Vencord)
 
 1. **Download** [Latest Release](https://github.com/spongebobmoviept-lab/Discord-VLC-Audio-Share/releases)
 2. **Extract ZIP** to a folder
@@ -69,13 +90,24 @@ Friends hear your audio + see your screen
 
 ## Full Setup Guide
 
-See [HOW TO USE.txt](Release/HOW%20TO%20USE.txt) for detailed instructions on:
+See [SETUP_INSTRUCTIONS.txt](Release/SETUP_INSTRUCTIONS.txt) for detailed instructions on:
+- Installing prerequisites (VLC, VB-Audio, Vencord)
 - Audio routing with VB-Audio Virtual Cable
+- Vencord plugin setup and configuration
 - Dummy plug / virtual monitor setup
 - Stream Deck integration
 - Troubleshooting
 
 ## Key Features
+
+### ⚡ Vencord Plugin - Share Screen Button Hijack (NEW!)
+When Vencord plugin is installed, clicking "Share Screen" in Discord automatically:
+1. Launches VLC with your pre-configured settings
+2. Waits for you to select "Application Window" → "VLC"
+3. One-click streaming to Discord!
+
+**To your viewers**: Looks like you're sharing a desktop
+**Actually**: It's your perfectly-routed VLC stream with zero audio issues
 
 ### Monitor/Desktop Capture
 - Auto-detects all monitors (any resolution, any layout)
@@ -101,9 +133,28 @@ See [HOW TO USE.txt](Release/HOW%20TO%20USE.txt) for detailed instructions on:
 - Headless mode: `vlc_share_ctl.exe toggle` / `start` / `stop`
 
 ### Stream Deck Integration
-Both EXEs must be in the same folder:
-- **One-button toggle**: `vlc_share_ctl.exe toggle` (start if stopped, stop if running)
-- **Separate buttons**: `vlc_share_ctl.exe start` / `vlc_share_ctl.exe stop`
+
+**Two ways to use with Stream Deck:**
+
+#### Method 1: Direct Control (Works without Vencord)
+Set up Stream Deck buttons for full control:
+- **Button 1**: `vlc_share_ctl.exe start` — Launch VLC
+- **Button 2**: `vlc_share_ctl.exe stop` — Stop VLC
+- **Button 3**: `vlc_share_ctl.exe toggle` — Start if stopped, stop if running
+
+Then manually click "Share Screen" in Discord when you want to stream.
+
+#### Method 2: Vencord + Stream Deck (Recommended)
+With Vencord plugin installed, use Stream Deck to launch VLC, then:
+1. **Stream Deck button**: `vlc_share_ctl.exe toggle` — Launches VLC with your saved settings
+2. **In Discord**: Click **"Share Screen"** 
+3. **Vencord plugin** automatically detects it and launches VLC (if not already running)
+4. **Select**: Application Window → VLC → Go Live
+
+OR skip the Stream Deck button and just:
+- Click "Share Screen" in Discord directly
+- Vencord plugin launches VLC automatically
+- Done!
 
 ## Architecture
 
