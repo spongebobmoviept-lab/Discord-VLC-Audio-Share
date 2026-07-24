@@ -6,7 +6,6 @@ REM ======================================
 setlocal enabledelayedexpansion
 
 set "VENCORD_PATH=%APPDATA%\Vencord\src\userplugins"
-set "VENCORD_CONFIG=%APPDATA%\Vencord\settings\plugins.json"
 set "PLUGIN_FILE=%~dp0VLCShareVencord.tsx"
 
 echo.
@@ -35,7 +34,7 @@ if not exist "%VENCORD_PATH%" (
 )
 
 REM Copy plugin file
-echo Copying VLC Share plugin...
+echo Copying VLC Share plugin to: %VENCORD_PATH%
 copy /Y "%PLUGIN_FILE%" "%VENCORD_PATH%\" >nul
 if errorlevel 1 (
     echo ERROR: Failed to copy plugin file
@@ -46,36 +45,41 @@ if errorlevel 1 (
 echo ✓ Plugin file copied
 echo.
 
-REM Auto-enable plugin by modifying Vencord config
-if exist "%VENCORD_CONFIG%" (
-    echo Auto-enabling plugin in Vencord...
-    REM This is a simple approach - we just make sure the config exists
-    REM The plugin will be discovered on next Discord load
-)
+REM Give file system time to sync
+timeout /t 2 /nobreak >nul
 
 REM Close Discord if running
-echo Restarting Discord...
+echo Closing Discord completely...
 taskkill /F /IM Discord.exe >nul 2>&1
 timeout /t 2 /nobreak >nul
 
 REM Reopen Discord
+echo Starting Discord...
 start Discord
-timeout /t 3 /nobreak >nul
+
+REM Wait for Discord to fully load
+echo Waiting for Discord to load...
+timeout /t 8 /nobreak >nul
 
 echo.
 echo ============================================
-echo ✓ AUTOMATIC SETUP COMPLETE!
+echo ✓ SETUP COMPLETE!
 echo ============================================
 echo.
-echo Discord is restarting now...
+echo Discord should now show Vencord in the sidebar.
 echo.
-echo Once it loads, you can immediately use:
+echo Plugin should be ready to use:
 echo   • Type: /vlc_share   (opens VLC Share Tool)
 echo   • Type: /vlc_toggle  (starts/stops stream)
 echo.
-echo If the commands don't work:
-echo   1. Open Vencord settings (gear icon, bottom-left)
-echo   2. Go to Plugins
-echo   3. Find "VLC Share Tool" and toggle it ON
+echo If you don't see the plugin or commands don't work:
+echo   1. Open Vencord settings (gear icon, bottom-left of Discord)
+echo   2. Click Plugins
+echo   3. Search for "VLC" - you should see "VLC Share Tool"
+echo   4. Toggle it ON (turn blue)
+echo   5. Close settings
+echo   6. Try typing /vlc_share again
 echo.
-timeout /t 5 /nobreak
+echo If still missing: you may need to restart Discord manually
+echo.
+pause
