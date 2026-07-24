@@ -129,12 +129,13 @@ def start():
     audio_out  = cfg.get("audio_out",  "").strip()
     fullscreen = cfg.get("fullscreen", True)
     vlc_screen = cfg.get("vlc_screen", -1)
+    vlc_path   = cfg.get("vlc_path",   VLC_PATH)  # Use custom path if saved, else auto-detected
 
-    if not os.path.exists(VLC_PATH):
+    if not os.path.exists(vlc_path):
         return   # VLC not found — silently skip
 
     cmd = [
-        VLC_PATH,
+        vlc_path,
         "screen://",
         f"--screen-fps={fps}",
         f"--screen-left={vlc_left}",

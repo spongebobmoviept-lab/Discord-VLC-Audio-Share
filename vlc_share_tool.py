@@ -183,15 +183,20 @@ def launch_vlc(x: int, y: int, w: int, h: int, fps: int = 30,
                audio_in: str = AUDIO_INPUT_DEVICE,
                audio_out: str = "",
                fullscreen: bool = True,
-               vlc_screen: int = -1) -> "subprocess.Popen | None":
+               vlc_screen: int = -1,
+               vlc_path: str = None) -> "subprocess.Popen | None":
     """
     Launch VLC capturing region (x,y,w,h).  Returns the Popen object so the
     caller can track / kill the process, or None on error.
     """
-    if not os.path.exists(VLC_PATH):
+    if vlc_path is None:
+        vlc_path = VLC_PATH
+    
+    if not os.path.exists(vlc_path):
         messagebox.showerror("VLC Not Found",
-                             f"VLC not found at:\n{VLC_PATH}\n\n"
-                             "Edit VLC_PATH at the top of vlc_share_tool.py")
+                             f"VLC not found at:\n{vlc_path}\n\n"
+                             "Go to Settings tab and specify the correct VLC path, "
+                             "or install VLC from videolan.org")
         return None
 
     # VLC's --screen-left/top are offsets from the virtual desktop origin,
@@ -205,7 +210,7 @@ def launch_vlc(x: int, y: int, w: int, h: int, fps: int = 30,
     screen_top  = y - virt_top
 
     cmd = [
-        VLC_PATH,
+        vlc_path,
         "screen://",
         f"--screen-fps={fps}",
         f"--screen-left={screen_left}",
@@ -402,6 +407,11 @@ class App(tk.Tk):
         nb.add(win_tab, text="  Windows  ")
         self._build_window_tab(win_tab)
 
+        # Settings tab
+        settings_tab = ttk.Frame(nb)
+        nb.add(settings_tab, text="  ⚙ Settings  ")
+        self._build_settings_tab(settings_tab)
+
         # ---- Options row ----
         opts = ttk.Frame(self)
         opts.pack(fill="x", padx=18, pady=(4, 0))
@@ -594,6 +604,93 @@ class App(tk.Tk):
             w = self._windows[int(sel[0])]
             return w["x"], w["y"], w["width"], w["height"]
 
+    def _build_settings_tab(self, parent):
+        """Settings tab — manual path overrides if auto-detection fails."""
+        frame = ttk.Frame(parent)
+        frame.pack(fill="both", expand=True, padx=12, pady=12)
+
+        # Title
+        ttk.Label(frame, text="🔧 Paths & Auto-Detection",
+                  font=("Segoe UI", 11, "bold")).pack(anchor="w", pady=(0, 12))
+
+        # VLC Path
+        vlc_row = ttk.Frame(frame)
+        vlc_row.pack(fill="x", pady=6)
+        ttk.Label(vlc_row, text="VLC Path:").pack(side="left", anchor="w")
+        self.vlc_path_var = tk.StringVar(value=VLC_PATH)
+        vlc_entry = ttk.Entry(vlc_row, textvariable=self.vlc_path_var,
+                              font=("Segoe UI", 9), width=60)
+        vlc_entry.pack(side="left", fill="x", expand=True, padx=8)
+        ttk.Button(vlc_row, text="Browse", width=8,
+                   command=self._browse_vlc).pack(side="left")
+
+        ttk.Label(frame, text="Current: " + VLC_PATH, font=("Segoe UI", 8),
+                  foreground="gray").pack(anchor="w", pady=(0, 12))
+
+        # Auto-detection info
+        ttk.Label(frame, text="ℹ️ Auto-Detection Status",
+                  font=("Segoe UI", 11, "bold")).pack(anchor="w", pady=(12, 6))
+
+        info_text = []
+        if HAS_SCREENINFO:
+            info_text.append("✓ Monitor detection (screeninfo)")
+        else:
+            info_text.append("✗ Monitor detection needs screeninfo (auto-installs on first run)")
+
+        if HAS_WIN32:
+            info_text.append("✓ Window capture & audio")
+        else:
+            info_text.append("✗ Window capture needs win32 (auto-installs on first run)")
+
+        if os.path.exists(VLC_PATH):
+            info_text.append(f"✓ VLC found: {VLC_PATH}")
+        else:
+            info_text.append("✗ VLC not found — specify path above or install from videolan.org")
+
+        for line in info_text:
+            ttk.Label(frame, text=line, font=("Segoe UI", 9)).pack(anchor="w", pady=2)
+
+        # Spacer
+        ttk.Frame(frame).pack(fill="y", expand=True)
+
+        # Save button
+        ttk.Button(frame, text="💾 Save Settings",
+                   command=self._save_settings).pack(pady=12)
+
+    def _browse_vlc(self):
+        """Open file browser to find vlc.exe."""
+        from tkinter import filedialog
+        path = filedialog.askopenfilename(
+            title="Find VLC executable",
+            filetypes=[("VLC Executable", "vlc.exe"), ("All Files", "*.*")],
+            initialfile="vlc.exe"
+        )
+        if path:
+            self.vlc_path_var.set(path)
+
+    def _save_settings(self):
+        """Save custom paths to config."""
+        cfg = {}
+        try:
+            if CONFIG_FILE.exists():
+                cfg = json.loads(CONFIG_FILE.read_text())
+        except Exception:
+            pass
+
+        vlc_custom = self.vlc_path_var.get().strip()
+        if vlc_custom and os.path.exists(vlc_custom):
+            cfg["vlc_path"] = vlc_custom
+            messagebox.showinfo("Settings Saved",
+                                f"VLC path saved:\n{vlc_custom}")
+        else:
+            messagebox.showwarning("Invalid Path",
+                                   "VLC path must be a valid file.")
+
+        try:
+            CONFIG_FILE.write_text(json.dumps(cfg, indent=2))
+        except Exception as e:
+            messagebox.showerror("Save Error", f"Could not save settings:\n{e}")
+
     def _refresh_audio(self):
         captures = get_audio_endpoints("Capture")
         renders  = get_audio_endpoints("Render")
@@ -624,7 +721,8 @@ class App(tk.Tk):
             except (IndexError, ValueError):
                 pass
 
-        proc = launch_vlc(x, y, w, h, fps, audio_in, audio_out, fullscreen, vlc_screen)
+        vlc_path = self.vlc_path_var.get().strip()
+        proc = launch_vlc(x, y, w, h, fps, audio_in, audio_out, fullscreen, vlc_screen, vlc_path)
         if proc:
             self._vlc_proc = proc
             try:
@@ -707,6 +805,8 @@ class App(tk.Tk):
                 self.audio_out_var.set(cfg["audio_out"])
             if "fullscreen" in cfg:
                 self.fullscreen_var.set(cfg["fullscreen"])
+            if "vlc_path" in cfg:
+                self.vlc_path_var.set(cfg["vlc_path"])
         except Exception:
             pass
 
